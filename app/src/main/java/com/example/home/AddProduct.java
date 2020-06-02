@@ -53,6 +53,7 @@ public class AddProduct extends AppCompatActivity{
                 totPrice.setText("Total Price: RM" + sum);
             }
         });
+        //hi
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
