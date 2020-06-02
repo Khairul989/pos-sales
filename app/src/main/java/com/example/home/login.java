@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -26,6 +27,7 @@ public class login extends AppCompatActivity {
     Button btnLogin;
     ProgressBar pb;
     FirebaseAuth fa;
+    TextView reset;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +40,14 @@ public class login extends AppCompatActivity {
         btnLogin = findViewById(R.id.loginBtn);
         pb = findViewById(R.id.progressBar2);
         fa = FirebaseAuth.getInstance();
+        reset = findViewById(R.id.reset);
 
+        reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),resetProfile.class));
+            }
+        });
         btnLogin.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 String mail = email.getText().toString().trim();

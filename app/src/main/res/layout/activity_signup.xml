@@ -79,7 +79,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:focusable="true"
-        android:focusableInTouchMode="true">
+        android:focusableInTouchMode="true"
+        app:passwordToggleEnabled="true"
+        >
 
         <EditText
             android:layout_width="match_parent"
@@ -99,7 +101,9 @@
 
         android:layout_marginTop="5dp"
         android:focusable="true"
-        android:focusableInTouchMode="true">
+        android:focusableInTouchMode="true"
+        app:passwordToggleEnabled="true"
+        >
 
         <EditText
             android:layout_width="match_parent"

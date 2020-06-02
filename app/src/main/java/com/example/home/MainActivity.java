@@ -7,9 +7,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -48,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
                 fa.getInstance().signOut();
                 finish();
                 startActivity(new Intent(getApplicationContext(),login.class));
+                Toast.makeText(getApplicationContext(), "Logout Succesful", Toast.LENGTH_SHORT).show();
             }
         });
         b.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
@@ -59,5 +62,9 @@ public class MainActivity extends AppCompatActivity {
 
         AlertDialog a = b.create();
         a.show();
+    }
+
+    public void product(View view) {
+        startActivity(new Intent(getApplicationContext(),AddProduct.class));
     }
 }

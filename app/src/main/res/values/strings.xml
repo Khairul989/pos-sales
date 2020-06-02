@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">home</string>
+    <string-array name="product_category">
+        <item>product category</item>
+        <item>SARAH</item>
+        <item>cantik</item>
+        <item>comel</item>
+        <item>sekian</item>
+    </string-array>
 </resources>

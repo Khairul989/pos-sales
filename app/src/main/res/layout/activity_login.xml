@@ -73,6 +73,17 @@
         android:background="@drawable/button_rounded"
         android:onClick="btn_signup"/>
 
+    <TextView
+        android:id="@+id/reset"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:gravity="center_horizontal"
+        android:text="Forgot PassWord? Reset here"
+        android:textColor="#fff000"
+        android:textStyle="italic" />
+
     <ProgressBar
         android:id="@+id/progressBar2"
         style="?android:attr/progressBarStyle"
@@ -80,15 +91,5 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
         android:visibility="invisible" />
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Forgot PassWord? Reset here"
-        android:textColor="#fff000"
-        android:layout_marginTop="10dp"
-        android:gravity="center_horizontal"
-        android:textStyle="italic"
-        android:fontFamily="sans-serif-condensed-medium"
-        android:onClick="reset_profile"/>
+
 </LinearLayout>
