@@ -11,12 +11,14 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -29,6 +31,7 @@ public class AddProduct extends AppCompatActivity{
     Spinner ProdCategory;
     Button btnAdd;
     FirebaseFirestore ff;
+    ProgressBar pb;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +45,7 @@ public class AddProduct extends AppCompatActivity{
         Weight = findViewById(R.id.weight);
         ProdCategory = findViewById(R.id.prodCategory);
         btnAdd = findViewById(R.id.btnAdd);
+        pb = findViewById(R.id.progressBar3);
         ff = FirebaseFirestore.getInstance();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -65,14 +69,18 @@ public class AddProduct extends AppCompatActivity{
                 String pQuantity = prodQuantity.getText().toString();
                 String w = Weight.getText().toString();
                 String pCateg = ProdCategory.getSelectedItem().toString();
+                String total = totPrice.getText().toString();
 
                 if(TextUtils.isEmpty(pn) || TextUtils.isEmpty(pdesc) || TextUtils.isEmpty(BUnit) || TextUtils.isEmpty(PUnit) || TextUtils.isEmpty(pQuantity) || TextUtils.isEmpty(w) || TextUtils.isEmpty(pCateg)){
                     Toast.makeText(AddProduct.this, "Please make sure all the field is filled in!!",Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
+                    FirebaseAuth fa = FirebaseAuth.getInstance();
+                    String uID = fa.getUid();
                     DocumentReference dr = ff.collection("Product").document();
                     Map<String,Object> product = new HashMap<>();
+                    product.put("User ID",uID);
                     product.put("Product ID",dr.getId());
                     product.put("Product Name", pn);
                     product.put("Product Description",pdesc);
@@ -81,6 +89,9 @@ public class AddProduct extends AppCompatActivity{
                     product.put("Quantity", pQuantity);
                     product.put("Product Weight",w);
                     product.put("Product Category", pCateg);
+                    product.put("Total Price",total);
+
+                    pb.setVisibility(View.VISIBLE);
                     dr.set(product).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
@@ -91,6 +102,7 @@ public class AddProduct extends AppCompatActivity{
                             else
                             {
                                 Toast.makeText(AddProduct.this,"Failed! "+task.getException(),Toast.LENGTH_SHORT).show();
+                                pb.setVisibility(View.GONE);
                             }
                         }
                     });

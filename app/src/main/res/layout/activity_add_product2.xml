@@ -81,11 +81,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:ems="10"
-                android:hint="Buy Price Per Unit"
+                android:hint="Buying price"
                 android:id="@+id/BPPUnit"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:padding="10dp"
@@ -103,11 +103,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:ems="10"
-                android:hint="Price Per Unit"
+                android:hint="Selling Price"
                 android:id="@+id/PPUnit"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:padding="10dp"
@@ -158,8 +158,8 @@
                 android:layout_marginRight="10dp"
                 android:background="@drawable/input_round_shape"
                 android:ems="10"
-                android:hint="Weigh of Product Per Unit"
-                android:inputType="number"
+                android:hint="Product weight (kg)"
+                android:inputType="numberDecimal"
                 android:padding="10dp"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -188,6 +188,14 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/button_rounded"
             />
+
+        <ProgressBar
+            android:id="@+id/progressBar3"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible" />
+
     </LinearLayout>
 
 </ScrollView>
