@@ -1,0 +1,63 @@
+package com.example.home;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
+
+public class MainActivity extends AppCompatActivity {
+
+    FirebaseAuth fa = FirebaseAuth.getInstance();
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater i = super.getMenuInflater();
+        i.inflate(R.menu.option_menu,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == R.id.logout){
+            logout();
+            return true;
+        }
+        return false;
+    }
+    public void logout(){
+        AlertDialog.Builder b = new AlertDialog.Builder(this,R.style.MyDialogTheme);
+        b.setTitle("Alert!");
+        b.setMessage("Are you sure to Logout?");
+
+        b.setPositiveButton("PROCEED", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                fa.getInstance().signOut();
+                finish();
+                startActivity(new Intent(getApplicationContext(),login.class));
+            }
+        });
+        b.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getApplicationContext(), "Logout Canceled", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        AlertDialog a = b.create();
+        a.show();
+    }
+}
