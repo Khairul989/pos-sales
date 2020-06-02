@@ -25,6 +25,7 @@
                 android:layout_height="50dp"
                 android:ems="10"
                 android:hint="Product Name"
+                android:id="@+id/prodName"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:inputType="text"
@@ -37,7 +38,7 @@
         <Spinner
             android:focusableInTouchMode="true"
             android:focusable="true"
-            android:id="@+id/product_category"
+            android:id="@+id/prodCategory"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@drawable/input_round_shape"
@@ -59,6 +60,7 @@
                 android:layout_height="100dp"
                 android:ems="10"
                 android:hint="Product Description"
+                android:id="@+id/prodDesc"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:inputType="text"
@@ -80,6 +82,7 @@
                 android:layout_height="50dp"
                 android:ems="10"
                 android:hint="Buy Price Per Unit"
+                android:id="@+id/BPPUnit"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:inputType="number"
@@ -101,6 +104,7 @@
                 android:layout_height="50dp"
                 android:ems="10"
                 android:hint="Price Per Unit"
+                android:id="@+id/PPUnit"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:inputType="number"
@@ -122,6 +126,7 @@
                 android:layout_height="50dp"
                 android:ems="10"
                 android:hint="Quantity"
+                android:id="@+id/prodQuantity"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:inputType="number"
@@ -136,21 +141,7 @@
             android:layout_height="wrap_content"
             android:focusable="true"
             android:layout_marginTop="10dp"
-            android:focusableInTouchMode="true">
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:ems="10"
-                android:hint="Total:"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:inputType="text"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:padding="10dp"
-                android:background="@drawable/input_round_shape"/>
-        </com.google.android.material.textfield.TextInputLayout>
+            android:focusableInTouchMode="true"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -160,24 +151,38 @@
             android:focusableInTouchMode="true">
 
             <EditText
+                android:id="@+id/weight"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="61dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/input_round_shape"
                 android:ems="10"
                 android:hint="Weigh of Product Per Unit"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 android:inputType="number"
-                android:textSize="20sp"
-                android:textStyle="bold"
                 android:padding="10dp"
-                android:background="@drawable/input_round_shape"/>
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+
         </com.google.android.material.textfield.TextInputLayout>
 
+        <TextView
+            android:id="@+id/totPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:text="Total: "
+            android:textColor="#fff000"
+            android:layout_marginTop="10dp"
+            android:textSize="20sp" />
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
             android:text="Add Product"
+            android:id="@+id/btnAdd"
             android:textSize="22sp"
             android:textColor="#ffff"
             android:layout_marginTop="10dp"

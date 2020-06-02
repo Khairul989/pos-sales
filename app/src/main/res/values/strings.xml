@@ -1,10 +1,12 @@
 <resources>
     <string name="app_name">home</string>
     <string-array name="product_category">
-        <item>product category</item>
-        <item>SARAH</item>
-        <item>cantik</item>
-        <item>comel</item>
-        <item>sekian</item>
+        <item>Electronic</item>
+        <item>Food and Beverage</item>
+        <item>Men Clothing</item>
+        <item>Woman Clothing</item>
+        <item>Car Accessory</item>
+        <item>Computer component</item>
+        <item>Mobile Phone and Accessories</item>
     </string-array>
 </resources>
