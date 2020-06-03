@@ -13,6 +13,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".AddProduct"></activity>
         <activity android:name=".resetProfile"></activity>
+        <activity android:name=".viewprofile"></activity>
         <activity android:name=".MainActivity" />
         <activity android:name=".signup" />
         <activity android:name=".login">

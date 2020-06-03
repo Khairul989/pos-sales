@@ -81,7 +81,7 @@
         android:fontFamily="sans-serif-condensed-medium"
         android:gravity="center_horizontal"
         android:text="Forgot PassWord? Reset here"
-        android:textColor="#fff000"
+        android:textColor="#fff"
         android:textStyle="italic" />
 
     <ProgressBar

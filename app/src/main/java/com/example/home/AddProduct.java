@@ -1,8 +1,10 @@
 package com.example.home;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -47,6 +49,7 @@ public class AddProduct extends AppCompatActivity{
         btnAdd = findViewById(R.id.btnAdd);
         pb = findViewById(R.id.progressBar3);
         ff = FirebaseFirestore.getInstance();
+
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -97,7 +100,8 @@ public class AddProduct extends AppCompatActivity{
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful()){
                                 Toast.makeText(AddProduct.this,"Prodcut Successfully Added",Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                                addSuccess();
+                                pb.setVisibility(View.GONE);
                             }
                             else
                             {
@@ -117,5 +121,24 @@ public class AddProduct extends AppCompatActivity{
         }
         return super.onOptionsItemSelected(mi);
     }
+    public void addSuccess(){
+        AlertDialog.Builder b = new AlertDialog.Builder(this, R.style.MyDialogTheme);
+        b.setTitle("Successful");
+        b.setMessage("Your Product has been Added..");
 
+        b.setPositiveButton("Add another product?", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(AddProduct.this,"Please add another product",Toast.LENGTH_SHORT).show();
+            }
+        });
+        b.setNegativeButton("Back to Homepage", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                startActivity(new Intent(getApplicationContext(),MainActivity.class));
+            }
+        });
+        AlertDialog a = b.create();
+        a.show();
+    }
 }

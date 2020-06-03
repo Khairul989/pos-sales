@@ -17,10 +17,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -110,18 +112,34 @@ public class signup extends AppCompatActivity {
                 }
                 pb.setVisibility(View.VISIBLE);
                 //User Registration to firebase
-                if(cpass.equals(password) && TextUtils.isDigitsOnly(phoneNo)){
+                if(cpass.equals(password) && TextUtils.isDigitsOnly(phoneNo) && phoneNo.length() >=10 && phoneNo.length() <= 12 && password.length() >= 6 && password.length() <= 8){
                     fa.createUserWithEmailAndPassword(mail,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
+
+                                //Send email verification
+                                FirebaseUser fuser = fa.getCurrentUser();
+                                fuser.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Toast.makeText(signup.this, "Verification email send, Please check your email", Toast.LENGTH_SHORT).show();
+                                    }
+                                })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Toast.makeText(signup.this, "Error! "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+
+                                //Create user data and store in firebase
                                 userID = fa.getCurrentUser().getUid();
                                 DocumentReference dr = ff.collection("user").document(userID);
                                 Map<String,Object> user = new HashMap<>();
                                 user.put("fullname",fname);
                                 user.put("email",mail);
                                 user.put("phone",phoneNo);
-                                user.put("password",password);
                                 user.put("gender",rb.getText());
                                 dr.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
@@ -144,7 +162,6 @@ public class signup extends AppCompatActivity {
                     Toast.makeText(signup.this,"Please make sure Password and Confirm Password is the same value", Toast.LENGTH_SHORT).show();
                     pb.setVisibility(View.GONE);
                 }
-
             }
         });
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/background"
@@ -9,53 +9,139 @@
     android:layout_height="match_parent"
     tools:context=".resetProfile">
 
-
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Reset Password"
+        android:textStyle="bold"
+        android:textSize="30sp"
+        android:textColor="#fff"
+        android:gravity="center"
+        />
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
         android:focusable="true"
+        android:id="@+id/kotak1"
         android:focusableInTouchMode="true">
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="New Password"
+            android:id="@+id/resetEmail"
+            android:hint="Enter your email here"
             android:ems="10"
-            android:inputType="textPassword"
             android:textSize="20sp"
             android:textStyle="bold"
             />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/button_rounded"
+            android:onClick="btnCheck"
+            android:text="Check"
+            android:textColor="#ffff"
+            android:textSize="22sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:id="@+id/kotak2"
+        android:layout_below="@+id/kotak1"
+        android:layout_marginTop="40dp"
         android:focusable="true"
-        android:focusableInTouchMode="true">
+        android:focusableInTouchMode="true"
+        android:visibility="invisible">
 
-        <EditText
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cons1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Confirmation Password"
-            android:ems="10"
-            android:inputType="text"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            />
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tv1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fullname: "
+                android:textColor="#000"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cons1" />
+
+            <TextView
+                android:id="@+id/resetFn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="Fullname: "
+                android:textColor="#fff"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/resEmailtv"
+                app:layout_constraintStart_toEndOf="@+id/tv1" />
+
+            <TextView
+                android:id="@+id/tv2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Email: "
+                android:textColor="#000"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv1" />
+
+            <TextView
+                android:id="@+id/resEmailtv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fullname: "
+                android:textColor="#fff"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/resetFn"
+                app:layout_constraintTop_toBottomOf="@id/resetFn" />
+
+            <TextView
+                android:id="@+id/tv3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Phone No: "
+                android:textColor="#000"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv2" />
+
+            <TextView
+                android:id="@+id/resPhone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Phone "
+                android:textColor="#fff"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/resEmailtv"
+                app:layout_constraintTop_toBottomOf="@id/resEmailtv" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="30dp"
+            android:text="Proceed"
+            android:onClick="btnProceed"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/resPhone" />
     </com.google.android.material.textfield.TextInputLayout>
 
-
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Reset"
-        android:textSize="22sp"
-        android:textColor="#ffff"
-        android:layout_marginTop="42dp"
-        android:background="@drawable/button_rounded"
-        android:onClick="btn_reset"/>
-
-</LinearLayout>
+</RelativeLayout>

@@ -3,6 +3,7 @@ package com.example.home;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,18 +13,66 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+
+import javax.annotation.Nullable;
 
 public class MainActivity extends AppCompatActivity {
-
-    FirebaseAuth fa = FirebaseAuth.getInstance();
+    TextView title;
+    FirebaseAuth fa;
+    FirebaseFirestore ff;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        CardView card = findViewById(R.id.cardProd);
+        CardView setting = findViewById(R.id.setting);
+
+        registerForContextMenu(card);
+        title = findViewById(R.id.welcUser);
+        fa = FirebaseAuth.getInstance();
+        ff = FirebaseFirestore.getInstance();
+        //Get fullname
+        DocumentReference dr = ff.collection("user").document(fa.getCurrentUser().getUid());
+        dr.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                title.setText("Welcome "+documentSnapshot.getString("fullname"));
+            }
+        });
+
+        //View profile
+        setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),viewprofile.class));
+            }
+        });
     }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        getMenuInflater().inflate(R.menu.product_menu,menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.addProd){
+            startActivity(new Intent(getApplicationContext(),AddProduct.class));
+        }
+        return true;
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater i = super.getMenuInflater();
@@ -64,7 +113,4 @@ public class MainActivity extends AppCompatActivity {
         a.show();
     }
 
-    public void product(View view) {
-        startActivity(new Intent(getApplicationContext(),AddProduct.class));
-    }
 }

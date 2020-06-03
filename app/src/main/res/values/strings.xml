@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">home</string>
+    <string name="app_name">SalesFlow</string>
     <string-array name="product_category">
         <item>Electronic</item>
         <item>Food and Beverage</item>
