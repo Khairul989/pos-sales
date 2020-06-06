@@ -69,6 +69,12 @@ FirebaseUser user;
         else
         {
             //Get data from firestore and display into textview
+            notverified.setVisibility(View.GONE);
+            verify.setVisibility(View.GONE);
+            fn.setVisibility(View.VISIBLE);
+            email.setVisibility(View.VISIBLE);
+            phone.setVisibility(View.VISIBLE);
+            verified.setVisibility(View.VISIBLE);
             DocumentReference dr = ff.collection("user").document(fa.getUid());
             dr.addSnapshotListener(new EventListener<DocumentSnapshot>() {
                 @Override
