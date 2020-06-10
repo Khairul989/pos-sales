@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         title = findViewById(R.id.welcUser);
         fa = FirebaseAuth.getInstance();
         ff = FirebaseFirestore.getInstance();
+
         //Get fullname
         DocumentReference dr = ff.collection("user").document(fa.getCurrentUser().getUid());
         dr.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
