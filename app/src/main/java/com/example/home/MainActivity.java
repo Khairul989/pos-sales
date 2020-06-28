@@ -34,16 +34,23 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        CardView card = findViewById(R.id.cardProd);
+        CardView ProdCard = findViewById(R.id.cardProd);
         CardView setting = findViewById(R.id.setting);
 
-        registerForContextMenu(card);
+        ProdCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), Products.class));
+            }
+        });
         title = findViewById(R.id.welcUser);
         fa = FirebaseAuth.getInstance();
         ff = FirebaseFirestore.getInstance();
 
         //Get fullname
         DocumentReference dr = ff.collection("user").document(fa.getCurrentUser().getUid());
+
+        DocumentReference dd = ff.collection("Product").document();
         dr.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
@@ -68,9 +75,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.addProd){
-            startActivity(new Intent(getApplicationContext(),AddProduct.class));
-        }
         return true;
     }
 

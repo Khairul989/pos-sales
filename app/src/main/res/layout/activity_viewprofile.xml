@@ -19,7 +19,7 @@
         android:layout_gravity="center"
         />
 
-    <TextView
+    <EditText
         android:id="@+id/tvFn"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -33,7 +33,7 @@
         android:visibility="invisible" />
 
 
-    <TextView
+    <EditText
         android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -46,7 +46,7 @@
         android:gravity="center_horizontal"
         android:padding="12dp"/>
 
-    <TextView
+    <EditText
         android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -74,6 +74,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/btnBack"
         android:text="Back"
         android:visibility="invisible"
         android:onClick="backHome"

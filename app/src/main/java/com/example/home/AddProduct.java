@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -18,18 +17,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.model.product;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class AddProduct extends AppCompatActivity{
-    EditText prodName, prodDesc, BPPUnit, PPUnit, prodQuantity, Weight;
-    TextView totPrice;
+    EditText prodName, prodDesc, PPUnit, prodQuantity;
     Spinner ProdCategory;
     Button btnAdd;
     FirebaseFirestore ff;
@@ -40,11 +36,8 @@ public class AddProduct extends AppCompatActivity{
         setContentView(R.layout.activity_add_product2);
         prodName = findViewById(R.id.prodName);
         prodDesc = findViewById(R.id.prodDesc);
-        BPPUnit = findViewById(R.id.BPPUnit);
         PPUnit = findViewById(R.id.PPUnit);
         prodQuantity = findViewById(R.id.prodQuantity);
-        totPrice = findViewById(R.id.totPrice);
-        Weight = findViewById(R.id.weight);
         ProdCategory = findViewById(R.id.prodCategory);
         btnAdd = findViewById(R.id.btnAdd);
         pb = findViewById(R.id.progressBar3);
@@ -53,49 +46,29 @@ public class AddProduct extends AppCompatActivity{
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Weight.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                double sum = Double.parseDouble(PPUnit.getText().toString()) * Double.parseDouble(prodQuantity.getText().toString());
-                totPrice.setText("Total Price: RM" + sum);
-            }
-        });
-        //hi
-
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String pn = prodName.getText().toString();
                 String pdesc = prodDesc.getText().toString();
-                String BUnit = BPPUnit.getText().toString();
                 String PUnit = PPUnit.getText().toString();
                 String pQuantity = prodQuantity.getText().toString();
-                String w = Weight.getText().toString();
                 String pCateg = ProdCategory.getSelectedItem().toString();
-                String total = totPrice.getText().toString();
 
-                if(TextUtils.isEmpty(pn) || TextUtils.isEmpty(pdesc) || TextUtils.isEmpty(BUnit) || TextUtils.isEmpty(PUnit) || TextUtils.isEmpty(pQuantity) || TextUtils.isEmpty(w) || TextUtils.isEmpty(pCateg)){
+                if(TextUtils.isEmpty(pn) || TextUtils.isEmpty(pdesc) ||TextUtils.isEmpty(PUnit) || TextUtils.isEmpty(pQuantity)|| TextUtils.isEmpty(pCateg)){
                     Toast.makeText(AddProduct.this, "Please make sure all the field is filled in!!",Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
                     FirebaseAuth fa = FirebaseAuth.getInstance();
                     String uID = fa.getUid();
-                    DocumentReference dr = ff.collection("Product").document();
-                    Map<String,Object> product = new HashMap<>();
-                    product.put("User ID",uID);
-                    product.put("Product ID",dr.getId());
-                    product.put("Product Name", pn);
-                    product.put("Product Description",pdesc);
-                    product.put("Buy Price Per Unit", BUnit);
-                    product.put("Price Per Unit",PUnit);
-                    product.put("Quantity", pQuantity);
-                    product.put("Product Weight",w);
-                    product.put("Product Category", pCateg);
-                    product.put("Total Price",total);
+                    String pID = ff.collection("Product").document().getId();
+                    DocumentReference dr = ff.collection("Product").document(pID);
+
+                    product p = new product(uID,pID,pn,pdesc,PUnit,pQuantity,pCateg);
 
                     pb.setVisibility(View.VISIBLE);
-                    dr.set(product).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    dr.set(p).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful()){
@@ -130,6 +103,10 @@ public class AddProduct extends AppCompatActivity{
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Toast.makeText(AddProduct.this,"Please add another product",Toast.LENGTH_SHORT).show();
+                prodName.setText("");
+                prodDesc.setText("");
+                prodQuantity.setText("");
+                PPUnit.setText("");
             }
         });
         b.setNegativeButton("Back to Homepage", new DialogInterface.OnClickListener() {

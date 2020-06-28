@@ -11,15 +11,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AddProduct"></activity>
-        <activity android:name=".resetProfile"></activity>
-        <activity android:name=".viewprofile"></activity>
+        <activity android:name=".Products"/>
+        <activity android:name=".AddProduct" />
+        <activity android:name=".resetProfile" />
+        <activity android:name=".viewprofile" />
         <activity android:name=".MainActivity" />
         <activity android:name=".signup" />
+        <activity android:name=".listviewproduct"/>
+        <activity android:name=".editproduct"/>
         <activity android:name=".login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
