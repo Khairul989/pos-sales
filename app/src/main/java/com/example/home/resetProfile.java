@@ -65,7 +65,6 @@ public class resetProfile extends AppCompatActivity {
                         emails = doc.getString("email");
                         phoneNo = doc.getString("phone");
                         found = true;
-                        System.out.println(mail);
                     }
                 }
                 if (found ==  true){

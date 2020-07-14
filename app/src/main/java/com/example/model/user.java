@@ -1,14 +1,23 @@
 package com.example.model;
 
 public class user {
-    String id,fullname,email,phone,gender;
+    String id,fullname,email,phone,gender, imageUri;
 
-    public user(String i,String f,String e, String p, String g ){
+    public void setImageUri(String imageUri) {
+        this.imageUri = imageUri;
+    }
+
+    public user(String i, String f, String e, String p, String g, String img){
+        imageUri = img;
         id = i;
         fullname = f;
         email = e;
         phone = p;
         gender = g;
+    }
+
+    public String getImageUri() {
+        return imageUri;
     }
 
     public user() {

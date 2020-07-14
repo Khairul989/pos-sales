@@ -15,15 +15,21 @@
         android:text="Your Profile"
         android:textColor="#fff"
         android:textStyle="bold"
-        android:textSize="30sp"
+        android:textSize="20sp"
         android:layout_gravity="center"
         />
-
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="20dp"
+        android:id="@+id/userProfPic"
+        android:layout_gravity="center"
+        android:visibility="invisible"/>
     <EditText
         android:id="@+id/tvFn"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="30dp"
         android:background="@drawable/input_round_shape"
         android:gravity="center_horizontal"
         android:padding="12dp"
@@ -46,52 +52,51 @@
         android:gravity="center_horizontal"
         android:padding="12dp"/>
 
+
     <EditText
-        android:layout_marginTop="20dp"
+        android:id="@+id/tvPhone"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="Number Phone"
-        android:id="@+id/tvPhone"
-        android:textSize="20sp"
-        android:textStyle="bold"
+        android:layout_marginTop="20dp"
         android:background="@drawable/input_round_shape"
         android:gravity="center_horizontal"
-        android:visibility="invisible"
-        android:padding="12dp"/>
-
+        android:padding="12dp"
+        android:text="Number Phone"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:visibility="invisible" />
 
     <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Update Profile"
-        android:visibility="invisible"
         android:id="@+id/btnUpdateProfile"
-        android:textSize="22sp"
-        android:textColor="#ffff"
-        android:layout_marginTop="60dp"
-        android:background="@drawable/button_rounded"
-        />
-    <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/btnBack"
-        android:text="Back"
-        android:visibility="invisible"
-        android:onClick="backHome"
-        android:textSize="22sp"
-        android:textColor="#ffff"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/button_rounded"
-        />
+        android:text="Update Profile"
+        android:textColor="#ffff"
+        android:textSize="22sp"
+        android:visibility="invisible" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="User is no verified!!"
+        android:text="User not verified!!"
         android:id="@+id/notVerified"
-        android:textSize="40sp"
+        android:textSize="20sp"
         android:textColor="#cf1111"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_gravity="center"
+        />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#ff0000"
+        android:text="Delete Account"
+        android:onClick="deleteUser"
+        android:textSize="22sp"
+        android:textColor="#ffff"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/button_rounded"
         />
     <Button
         android:layout_width="match_parent"
@@ -100,7 +105,7 @@
         android:id="@+id/verify"
         android:textSize="22sp"
         android:textColor="#ffff"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/button_rounded"
         />
     <TextView

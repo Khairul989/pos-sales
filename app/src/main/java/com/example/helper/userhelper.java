@@ -1,6 +1,7 @@
 package com.example.helper;
 
 import android.app.Activity;
+import android.net.Uri;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -18,6 +19,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StorageTask;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,7 +30,8 @@ import java.util.Map;
 import static com.example.home.signup.TAG;
 
 public class userhelper {
-
+    StorageReference mStorageRef;
+    StorageTask uploadTask;
     private FirebaseUser users;
     private FirebaseFirestore ff;
     private FirebaseAuth fa;
@@ -36,13 +42,11 @@ public class userhelper {
         fa = FirebaseAuth.getInstance();
     }
 
-    public boolean AddUser(final user u, final Activity c, String pass){
-        fa = FirebaseAuth.getInstance();
+    public boolean AddUser(final user u, final Activity c, String pass, final Uri imgUri){
         fa.createUserWithEmailAndPassword(u.getEmail(),pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
-
                     //Send email verification
                     FirebaseUser fuser = fa.getCurrentUser();
                     fuser.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -57,18 +61,36 @@ public class userhelper {
                                     Toast.makeText(c, "Error! "+e.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             });
-
+                    fa = FirebaseAuth.getInstance();
+                    final String uid = fa.getCurrentUser().getUid();
+                    final DocumentReference dr = ff.collection("user").document(uid);
+                    mStorageRef = FirebaseStorage.getInstance().getReference("userImage");
+                    String path = imgUri.getPath();
+                    String extension = path.substring(path.lastIndexOf(".")+1);
+                    String imgId = System.currentTimeMillis()+"."+extension;
+                    StorageReference sRef = mStorageRef.child(imgId);
                     //Create user data and store in firebase
-                    String uid = fa.getCurrentUser().getUid();
-                    DocumentReference dr = ff.collection("user").document(uid);
-                    u.setId(uid);
-                    dr.set(u).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    uploadTask = sRef.putFile(imgUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
-                        public void onSuccess(Void aVoid) {
-                            Log.d(TAG, "User created : " + u.getId());
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            Task<Uri> firebaseUri = taskSnapshot.getStorage().getDownloadUrl();
+                            firebaseUri.addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    String url = uri.toString();
+                                    u.setImageUri(url);
+                                    u.setId(uid);
+                                    dr.set(u).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Log.d(TAG, "User created : " + u.getId());
+                                        }
+                                    });
+                                    Toast.makeText(c, "Account Successfully Registered", Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         }
                     });
-                    Toast.makeText(c, "Account Successfully Registered", Toast.LENGTH_SHORT).show();
                 }
                 else{
                     Toast.makeText(c, "Error!"+task.getException().getMessage(), Toast.LENGTH_SHORT).show();

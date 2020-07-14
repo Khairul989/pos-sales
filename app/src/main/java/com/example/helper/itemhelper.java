@@ -1,9 +1,13 @@
 package com.example.helper;
 
+import android.app.Activity;
 import android.util.Log;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.example.home.productListAdapter;
 import com.example.model.product;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -26,10 +30,9 @@ public class itemhelper {
 
     public itemhelper(){}
 
-    public static ArrayList<product> listitem (final String userid){
-        final ArrayList<product> pro = new ArrayList<product>();
-        System.out.println(userid);
+    public static void listitem (final String userid, final Activity c, final ListView it){
         ff = FirebaseFirestore.getInstance();
+        final ArrayList<product> productArray = new ArrayList<>();
         ff.collection("Product").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -41,11 +44,18 @@ public class itemhelper {
                             String pd = doc.getString("prodDesc");
                             String pn = doc.getString("prodName");
                             String pp = doc.getString("prodPrice");
-                            String pq = doc.getString("prodQuantity");
                             String pc = doc.getString("prodCategory");
-                            product p = new product(userID, pid, pn, pd, pp, pq, pc);
-                            pro.add(p);
+                            String pq ="";
+                            String pimg = doc.getString("imgUri");
+                            product p = new product(userID, pid, pn, pd, pp, pc,pq, pimg);
+                            productArray.add(p);
                         }
+                    }
+                    productListAdapter pla = new productListAdapter((Activity) c, productArray);
+                    it.setAdapter(pla);
+                    pla.notifyDataSetChanged();
+                    if(productArray.size() == 0) {
+                        Toast.makeText(c, "List Not Found", Toast.LENGTH_SHORT).show();
                     }
                 }
                 else
@@ -54,6 +64,5 @@ public class itemhelper {
                 }
             }
         });
-        return pro;
     }
 }

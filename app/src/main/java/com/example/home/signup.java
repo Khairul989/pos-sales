@@ -2,14 +2,22 @@ package com.example.home;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -18,15 +26,15 @@ import android.widget.Toast;
 
 import com.example.helper.userhelper;
 import com.example.model.user;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StorageTask;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
+
+import java.io.ByteArrayOutputStream;
 
 public class signup extends AppCompatActivity {
     public static final String TAG = "TAG";
@@ -39,6 +47,9 @@ public class signup extends AppCompatActivity {
     TextView backLogin;
     FirebaseFirestore ff;
     userhelper uh;
+    ImageView profPic;
+    private Uri croppedImage;
+    private final int galCode = 999;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,11 +68,19 @@ public class signup extends AppCompatActivity {
         fa = FirebaseAuth.getInstance();
         ff = FirebaseFirestore.getInstance();
         backLogin = findViewById(R.id.backLogin);
+        profPic = findViewById(R.id.Addimg);
         uh = new userhelper();
         /*if (fa.getCurrentUser() != null){
             startActivity(new Intent(getApplicationContext(), login.class));
             finish();
         }*/
+
+        profPic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ActivityCompat.requestPermissions(signup.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, galCode);
+            }
+        });
 
         backLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,7 +137,7 @@ public class signup extends AppCompatActivity {
                     u.setEmail(mail);
                     u.setGender(rb.getText().toString());
 
-                    boolean status = uh.AddUser(u, signup.this, password);
+                    boolean status = uh.AddUser(u, signup.this, password, croppedImage);
 
                     if(status)
                     {
@@ -136,7 +155,50 @@ public class signup extends AppCompatActivity {
 
     }
 
+    public void onRequestPermissionsResult(int requestCode, String[]permissions, int[]grantResults){
+        if(requestCode == galCode){
+            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                Intent ig = new Intent(Intent.ACTION_GET_CONTENT);
+                ig.setType("image/*");
+                startActivityForResult(ig,galCode);
+            }
+            else
+            {
+                Toast.makeText(this, "Don't have permission to access gallery", Toast.LENGTH_SHORT).show();
+            }
+            return;
+        }
+        super.onRequestPermissionsResult(requestCode,permissions,grantResults);
+    }
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == galCode && resultCode == RESULT_OK) {
+            Uri imageuri = data.getData();
+            CropImage.activity(imageuri).setGuidelines(CropImageView.Guidelines.ON).setAspectRatio(1,1).start(this);
+        }
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE){
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK){
+                Uri resultUri = result.getUri();
+                profPic.setImageURI(resultUri);
+                croppedImage = resultUri;
+            }
+            else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE){
+                Exception e = result.getError();
+            }
+        }
+        super.onActivityResult(requestCode,resultCode,data);
+    }
+    public static byte[] imageViewToByte(ImageView image) {
+        Bitmap bitmap = ((BitmapDrawable)image.getDrawable()).getBitmap();
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] byteArray = stream.toByteArray();
+        return byteArray;
+    }
+
     public void btn_login(View view) {
         startActivity(new Intent(getApplicationContext(),login.class));
     }
+
+
 }

@@ -35,12 +35,27 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         CardView ProdCard = findViewById(R.id.cardProd);
+        CardView posCard = findViewById(R.id.poS);
         CardView setting = findViewById(R.id.setting);
+        CardView invoice = findViewById(R.id.invoice);
+
+        invoice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), ViewInvoice.class));
+            }
+        });
 
         ProdCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), Products.class));
+                startActivity(new Intent(getApplicationContext(),Products.class));
+            }
+        });
+        posCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), displaysales.class));
             }
         });
         title = findViewById(R.id.welcUser);
@@ -114,8 +129,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        AlertDialog a = b.create();
-        a.show();
+        b.create().show();
     }
 
 }

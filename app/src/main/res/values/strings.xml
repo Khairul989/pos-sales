@@ -8,5 +8,7 @@
         <item>Car Accessory</item>
         <item>Computer component</item>
         <item>Mobile Phone and Accessories</item>
+        <item>Motorcycle parts</item>
+        <item>Others</item>
     </string-array>
 </resources>

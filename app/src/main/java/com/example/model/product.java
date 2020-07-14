@@ -1,18 +1,45 @@
 package com.example.model;
 
-public class product {
-    String userID, prodId, prodName, prodDesc, prodPrice, prodQuantity, prodCategory;
+import java.io.Serializable;
+
+public class product implements Serializable {
+    String userID, prodId, prodName, prodDesc, prodPrice, prodCategory, pQuantity, imgUri;
 
     public product(){}
 
-    public product(String userID, String prodId, String prodName, String prodDesc, String prodPrice, String prodQuantity, String prodCategory) {
+    public product(String userID, String prodId, String prodName, String prodDesc, String prodPrice, String prodCategory, String pQuantity, String img) {
         this.userID = userID;
         this.prodId = prodId;
         this.prodName = prodName;
         this.prodDesc = prodDesc;
         this.prodPrice = prodPrice;
-        this.prodQuantity = prodQuantity;
         this.prodCategory = prodCategory;
+        this.pQuantity = pQuantity;
+        imgUri = img;
+    }
+
+    public String getpQuantity() {
+        return pQuantity;
+    }
+
+    public void setpQuantity(String pQuantity) {
+        this.pQuantity = pQuantity;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
+    }
+
+    public void setProdId(String prodId) {
+        this.prodId = prodId;
+    }
+
+    public String getImgUri() {
+        return imgUri;
+    }
+
+    public void setImgUri(String imgUri) {
+        this.imgUri = imgUri;
     }
 
     public String getUserID(){
@@ -33,10 +60,6 @@ public class product {
         return prodPrice;
     }
 
-    public String getProdQuantity() {
-        return prodQuantity;
-    }
-
     public String getProdCategory() {
         return prodCategory;
     }
@@ -52,10 +75,6 @@ public class product {
         this.prodPrice = prodPrice;
     }
 
-    public void setProdQuantity(String prodQuantity) {
-        this.prodQuantity = prodQuantity;
-    }
-
     public void setProdCategory(String prodCategory) {
         this.prodCategory = prodCategory;
     }
@@ -68,7 +87,6 @@ public class product {
                 ", prodName='" + prodName + '\'' +
                 ", prodDesc='" + prodDesc + '\'' +
                 ", prodPrice='" + prodPrice + '\'' +
-                ", prodQuantity='" + prodQuantity + '\'' +
                 ", prodCategory='" + prodCategory + '\'' +
                 '}';
     }
