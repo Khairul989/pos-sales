@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- On action bar -->
-    <item android:id="@+id/option"
-        android:icon="@drawable/ic_download"
-        android:title="option"
-        app:showAsAction="ifRoom"/>
-    <!-- Overflow menu. No need for icon -->
     <item android:id="@+id/delete"
         android:title="Delete" />
-    <item android:id="@+id/edit"
-        android:title="Edit"
-        />
 </menu>

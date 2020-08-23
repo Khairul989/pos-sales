@@ -23,6 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.model.product;
 import com.example.model.sale;
 import com.example.model.saleProduct;
+import com.example.model.tempProduct;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -46,7 +47,7 @@ import javax.annotation.Nullable;
 import static com.example.home.signup.TAG;
 
 public class pos_main extends AppCompatActivity {
-    private ArrayList<product> productArray;
+    private ArrayList<tempProduct> productArray;
     private ArrayList<saleProduct> spa = new ArrayList<>();
     private FirebaseFirestore ff;
     private FirebaseAuth fa;
@@ -73,13 +74,11 @@ public class pos_main extends AppCompatActivity {
                         String userID = doc.getString("userID");
                         if (uid.equals(userID)) {
                             String pid = doc.getString("prodId");
-                            String pd = "";
                             String pn = doc.getString("prodName");
                             String pp = doc.getString("prodPrice");
-                            String pc = "";
-                            String pq = doc.getString("prodQuantity");
                             String pi = doc.getString("imgUri");
-                            product p = new product(userID, pid, pn, pd, pp, pc,pq,pi);
+                            String pq = doc.getString("prodQuantity");
+                            tempProduct p = new tempProduct(userID, pid, pn, pp, pq,pi);
                             productArray.add(p);
                             double price = Double.parseDouble(pp);
                             total = total + price;
@@ -174,21 +173,21 @@ public class pos_main extends AppCompatActivity {
                             for(int i=0;i<productArray.size();i++){
                                 if(spa.size() == 0){
                                     p = Double.parseDouble(productArray.get(i).getProdPrice())+0;
-                                    q = Integer.parseInt(productArray.get(i).getpQuantity())+0;
+                                    q = Integer.parseInt(productArray.get(i).getProdQuantity())+0;
                                     sp = new saleProduct(uid,productArray.get(i).getProdId(),SaleID,productArray.get(i).getProdName(),String.valueOf(p),String.valueOf(q));
                                     DocumentReference dr = ff.collection("SaleProduct").document(productArray.get(i).getProdId());
                                     dr.set(sp);
                                 }
                                 else if (spa.size() != 0)
                                 {
-                                    sp = new saleProduct(uid,productArray.get(i).getProdId(),SaleID,productArray.get(i).getProdName(),productArray.get(i).getProdPrice(),productArray.get(i).getpQuantity());
+                                    sp = new saleProduct(uid,productArray.get(i).getProdId(),SaleID,productArray.get(i).getProdName(),productArray.get(i).getProdPrice(),productArray.get(i).getProdQuantity());
                                     DocumentReference dr = ff.collection("SaleProduct").document(productArray.get(i).getProdId());
                                     dr.set(sp);
 
                                     for (int k=0; k<spa.size();k++){
                                         if(spa.get(k).getProdid().equals(productArray.get(i).getProdId())){
                                             p = Double.parseDouble(productArray.get(i).getProdPrice())+Double.parseDouble(spa.get(k).getPrice());
-                                            q = Integer.parseInt(productArray.get(i).getpQuantity())+Integer.parseInt(spa.get(k).getSoldQty());
+                                            q = Integer.parseInt(productArray.get(i).getProdQuantity())+Integer.parseInt(spa.get(k).getSoldQty());
                                             sp = new saleProduct(uid,productArray.get(i).getProdId(),SaleID,productArray.get(i).getProdName(),String.valueOf(p),String.valueOf(q));
                                             dr.set(sp);
                                         }

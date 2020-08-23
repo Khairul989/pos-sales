@@ -56,9 +56,8 @@ public class listviewproduct extends AppCompatActivity {
                             String pn = doc.getString("prodName");
                             String pp = doc.getString("prodPrice");
                             String pc = doc.getString("prodCategory");
-                            String pq = "";
                             String pimg = doc.getString("imgUri");
-                            product p = new product(userID, pid, pn, pd, pp, pc,pq, pimg);
+                            product p = new product(userID, pid, pn, pd, pp, pc, pimg);
                             productArray.add(p);
                         }
                     }

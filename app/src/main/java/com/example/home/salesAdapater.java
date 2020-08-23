@@ -10,14 +10,15 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.model.product;
+import com.example.model.tempProduct;
 
 import java.util.ArrayList;
 
 public class salesAdapater extends BaseAdapter {
     private Activity c;
-    private ArrayList<product> p;
+    private ArrayList<tempProduct> p;
 
-    public salesAdapater(Activity context, ArrayList<product> p){
+    public salesAdapater(Activity context, ArrayList<tempProduct> p){
         c = context;
         this.p = p;
     }
@@ -39,9 +40,8 @@ public class salesAdapater extends BaseAdapter {
         pp = rv.findViewById(R.id.salePrice);
         pi = rv.findViewById(R.id.saleImage);
 
-        product pro = p.get(position);
+        tempProduct pro = p.get(position);
         pn.setText("Item: "+pro.getProdName());
-        pq.setText("Quantity: "+pro.getpQuantity());
         pp.setText("Price: RM"+pro.getProdPrice());
         Glide.with(c).load(pro.getImgUri()).into(pi);
 

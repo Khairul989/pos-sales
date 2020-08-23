@@ -143,15 +143,6 @@ public class viewInvoiceDetail extends AppCompatActivity {
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // get the menu inflater
-        MenuInflater inflater = super.getMenuInflater();
-        // inflate the menu using our XML menu file id, options_menu
-        inflater.inflate(R.menu.inv_menu, menu);
-        return true;
-    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId())
@@ -160,7 +151,6 @@ public class viewInvoiceDetail extends AppCompatActivity {
                 DocumentReference del = ff.collection("Sale").document(fa.getCurrentUser().getUid());
                 del.delete();
                 startActivity(new Intent(getApplicationContext(),ViewInvoice.class));
-            case R.id.edit:
                 return true;
         }
 

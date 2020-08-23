@@ -47,6 +47,7 @@ FirebaseFirestore ff;
 FirebaseUser users;
 ImageView profPic;
 private userhelper uh;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -136,47 +137,52 @@ private userhelper uh;
         return super.onOptionsItemSelected(mi);
     }
     public void deleteUser(View view) {
-        final String id = fa.getCurrentUser().getUid();
         final AlertDialog.Builder b = new AlertDialog.Builder(this, R.style.MyDialogTheme);
         users = fa.getCurrentUser();
-
+        final String id = fa.getCurrentUser().getUid();
         b.setTitle("User Deletion");
         b.setMessage("You sure to delete this account?");
         b.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                users.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()){
-                            DocumentReference dr = ff.collection("user").document(id);
-                           final CollectionReference cr = ff.collection("Product");
-
-                            dr.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    cr.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                            DocumentReference dp = ff.collection("Product").document();
-                                            for(QueryDocumentSnapshot doc: task.getResult()){
-                                                String uid = doc.getString("userID");
-                                                if(id.equals(uid)){
-                                                    dp.delete();
-                                                }
-                                            }
-                                            Toast.makeText(viewprofile.this, "We are sad on your leaving ;(.. Do join us again in the future", Toast.LENGTH_SHORT).show();
-                                            startActivity(new Intent(getApplicationContext(), login.class));
-                                        }
-                                    });
+                    public void onClick(DialogInterface dialog, int which) {
+                        ff.collection("Product").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> t) {
+                                for(QueryDocumentSnapshot doc: t.getResult()){
+                                    String uid = doc.getString("userID");
+                                    if(id.equals(uid)){
+                                        String pid = doc.getString("prodId");
+                                        ff.collection("Product").document(pid).delete();
+                                    }
                                 }
-                            });
-                        }
+                            }
+                        });
+                        ff.collection("SaleProduct").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                for (QueryDocumentSnapshot d: task.getResult()){
+                                    String uid = d.getString("uid");
+                                    if (id.equals(uid)){
+                                        String pid = d.getString("prodid");
+                                        ff.collection("SaleProduct").document(pid).delete();
+                                    }
+                                }
+                            }
+                        });
+                        ff.collection("Sale").document(id).delete();
+                        users.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()){
+                                    ff.collection("user").document(id).delete();
+                                    Toast.makeText(viewprofile.this, "We are sad on your leaving ;(.. Do join us again in the future", Toast.LENGTH_SHORT).show();
+                                    startActivity(new Intent(getApplicationContext(), login.class));
+                                }
+                            }
+                        });
                     }
                 });
-            }
-        });
-        b.setNegativeButton("Cancel", null);
+                b.setNegativeButton("Cancel", null);
 
         b.create().show();
     }

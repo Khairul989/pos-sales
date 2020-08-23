@@ -33,7 +33,7 @@ public class itemhelper {
     public static void listitem (final String userid, final Activity c, final ListView it){
         ff = FirebaseFirestore.getInstance();
         final ArrayList<product> productArray = new ArrayList<>();
-        ff.collection("Product").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        /*ff.collection("Product").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()){
@@ -64,5 +64,7 @@ public class itemhelper {
                 }
             }
         });
+
+         */
     }
 }

@@ -38,6 +38,14 @@ public class MainActivity extends AppCompatActivity {
         CardView posCard = findViewById(R.id.poS);
         CardView setting = findViewById(R.id.setting);
         CardView invoice = findViewById(R.id.invoice);
+        final CardView reports = findViewById(R.id.allReport);
+
+        reports.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),report.class));
+            }
+        });
 
         invoice.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,11 +73,10 @@ public class MainActivity extends AppCompatActivity {
         //Get fullname
         DocumentReference dr = ff.collection("user").document(fa.getCurrentUser().getUid());
 
-        DocumentReference dd = ff.collection("Product").document();
         dr.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                title.setText("Welcome "+documentSnapshot.getString("fullname"));
+                title.setText("Welcome to SalesFlow "+documentSnapshot.getString("fullname")+" :D");
             }
         });
 

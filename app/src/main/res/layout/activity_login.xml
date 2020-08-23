@@ -12,7 +12,7 @@
      <ImageView
          android:layout_width="match_parent"
          android:layout_height="200dp"
-         android:src="@drawable/ic_acc"
+         android:src="@drawable/circle"
          android:padding="30dp"/>
 
     <com.google.android.material.textfield.TextInputLayout

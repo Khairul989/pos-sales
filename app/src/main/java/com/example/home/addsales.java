@@ -86,8 +86,11 @@ public class addsales extends AppCompatActivity {
         sales.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                double prices = Double.parseDouble(price.getText().toString());
+                int qtys = Integer.parseInt(qty.getText().toString());
+                double total = prices * qtys;
+
                 String prodname = pn.getText().toString();
-                String pprice = totPrice.getText().toString();
                 String pQuantity = qty.getText().toString();
 
                 DocumentReference dr = ff.collection("TempProduct").document(pid);
@@ -95,7 +98,7 @@ public class addsales extends AppCompatActivity {
                 tp.setUserID(uID);
                 tp.setProdId(pid);
                 tp.setProdName(prodname);
-                tp.setProdPrice(pprice);
+                tp.setProdPrice(String.valueOf(total));
                 tp.setProdQuantity(pQuantity);
 
                 dr.set(tp).addOnCompleteListener(new OnCompleteListener<Void>() {
